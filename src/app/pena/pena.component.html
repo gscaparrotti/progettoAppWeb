@@ -1,0 +1,18 @@
+<section id="result" class="box">
+  <ul *ngIf="result.valid">
+    <li *ngIf="result.minAmmenda > 0">autorità competente: tribunale in composizione monocratica</li>
+    <li *ngIf="result.minSanzione > 0">sanzione amministrativa del pagamento di una somma compresa tra {{result.minSanzione}} e {{result.maxSanzione}} euro</li>
+    <li *ngIf="result.minAmmenda > 0">ammenda da {{result.minAmmenda}} a {{result.maxAmmenda}} euro</li>
+    <li *ngIf="result.fermo">fermo amministrativo del veicolo per 180 giorni<br></li>
+    <li *ngIf="result.minArresto > 0 && result.minArresto === 0">arresto fino a {{result.minArresto}} mesi</li>
+    <li *ngIf="result.minArresto > 0 && result.minArresto > 0">arresto da {{result.minArresto}} a {{result.maxArresto}} mesi</li>
+    <li *ngIf="result.minSospensione > 0">sanzione amministrativa accessoria della sospensione della patente di guida compresa tra {{result.minSospensione}} e {{result.maxSospensione}} mesi</li>
+    <li *ngIf="result.revoca">revoca della patente ai sensi del capo I, sezione II, del titolo VI CdS</li>
+    <li *ngIf="result.confisca">confisca in caso di sentenza di condanna ovvero di applicazione della pena su richiesta delle parti, anche se è stata applicata la sospensione condizionale della pena</li>
+    <li *ngIf="result.minAmmenda > 0">le disposizioni relative alle sanzioni accessorie summenzionate si applicano anche in caso di applicazione della pena su richiesta delle parti</li>
+  </ul>
+  <ul *ngIf="!result.valid">
+    <li>Dati inseriti non corretti. Riprovare.</li>
+  </ul>
+</section>
+

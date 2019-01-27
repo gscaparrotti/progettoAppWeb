@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import {StockService} from '../stock.service';
 
 @Component({
   selector: 'app-form1',
@@ -15,7 +16,11 @@ export class Form1Component implements OnInit {
     incidente = new FormControl(false);
 
 
-  constructor() { }
+  constructor(private stock: StockService) { }
+
+  stockResult() {
+    this.stock.setResult(this.calcolaPena());
+  }
 
   calcolaPena() {
     let rilevazione = 4;
@@ -92,8 +97,35 @@ export class Form1Component implements OnInit {
 }
 
 export class Result {
-  constructor(public valid: boolean, public minSanzione: number, public maxSanzione: number, public minAmmenda: number,
-              public maxAmmenda: number, public minSospensione: number, public maxSospensione: number, public minArresto: number,
-              public maxArresto: number, public fermo: boolean, public revoca: boolean, public confisca: boolean) {}
+
+  public valid: boolean;
+  public minSanzione: number;
+  public maxSanzione: number;
+  public minAmmenda: number;
+  public maxAmmenda: number;
+  public minSospensione: number;
+  public maxSospensione: number;
+  public minArresto: number;
+  public maxArresto: number;
+  public fermo: boolean;
+  public revoca: boolean;
+  public confisca: boolean;
+
+  constructor(valid: boolean, minSanzione?: number, maxSanzione?: number, minAmmenda?: number, maxAmmenda?: number,
+              minSospensione?: number, maxSospensione?: number, minArresto?: number, maxArresto?: number, fermo?: boolean,
+              revoca?: boolean, confisca?: boolean) {
+    this.valid = valid;
+    this.minSanzione = minSanzione;
+    this.maxSanzione = maxSanzione;
+    this.minAmmenda = minAmmenda;
+    this.maxAmmenda = maxAmmenda;
+    this.minSospensione = minSospensione;
+    this.maxSospensione = maxSospensione;
+    this.minArresto = minArresto;
+    this.maxArresto = maxArresto;
+    this.fermo = fermo;
+    this.revoca = revoca;
+    this.confisca = confisca;
+  }
 }
 

@@ -1,0 +1,25 @@
+<header>
+  <h2>Guida in stato di ebbrezza</h2>
+  <p>calcolo delle sanzioni e/o delle pene edittali previste (art. 186 CdS)</p>
+</header>
+<section id="parametri" class="box">
+  <div class="row uniform 50%">
+    <div class="6u 12u(mobilep)">
+      <input type="text" id="tasso" [formControl]="tasso" placeholder="rilevazione più bassa del tasso alcolemico">
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="checkbox" id="rifiutato" [formControl]="rifiutato"><label for="rifiutato">Il conducente ha rifiutato l'accertamento</label>
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="checkbox" id="estraneo" [formControl]="estraneo"><label for="estraneo">Il veicolo appartiene a persona estranea al reato</label>
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="checkbox" id="recidiva" [formControl]="recidiva"><label for="recidiva">E' contestabile la recidiva nel biennio</label>
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="checkbox" id="incidente" [formControl]="incidente"><label for="incidente">Il conducente del veicolo ha causato un incidente</label>
+    </div>
+  </div>
+</section>
+
+<a routerLink="/pena"><button class="button special" (click)="stockResult()">Calcola</button></a>
