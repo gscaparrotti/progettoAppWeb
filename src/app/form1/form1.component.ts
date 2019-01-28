@@ -23,19 +23,20 @@ export class Form1Component implements OnInit {
   }
 
   calcolaPena() {
-    let rilevazione = 4;
-    if (this.rifiutato.value === false) {
-        rilevazione = +this.tasso.value; // +string fa il parsing della stringa
+    if (!this.rifiutato.value  && (isNaN(Number(this.tasso.value)) || +this.tasso.value === 0)) {
+      return new Result(false);
     }
+
+    const rilevazione = !this.rifiutato.value ? +this.tasso.value : 4;
     const veicolo: boolean = this.estraneo.value;
-    const moltiplicatoreVeicoloAppartiene: number = (veicolo === true) ? 2 : 1;
+    const moltiplicatoreVeicoloAppartiene: number = veicolo ? 2 : 1;
     const recidiva: boolean = this.recidiva.value;
     const incidente: boolean = this.incidente.value;
-    const moltiplicatoreIncidente: number = (incidente === true) ? 2 : 1;
+    const moltiplicatoreIncidente: number = incidente ? 2 : 1;
     const fermo: boolean = (incidente === true && veicolo === false);
+
     let revocaPatente = false;
     let confisca = false;
-
     let minSanzione = 0,
         maxSanzione = 0,
         minAmmenda = 0,
@@ -44,6 +45,7 @@ export class Form1Component implements OnInit {
         maxSospensione = 0,
         minArresto = 0,
         maxArresto = 0;
+
     if (rilevazione >= 0.5 && rilevazione <= 0.8) {
         minSanzione = (527 * moltiplicatoreIncidente);
         maxSanzione = (2108 * moltiplicatoreIncidente);
@@ -74,10 +76,10 @@ export class Form1Component implements OnInit {
         minArresto = 6;
         maxArresto = 12;
     }
-    if (revocaPatente === true) {
+    if (revocaPatente) {
         minSospensione = 0;
     }
-    return new Result(!isNaN(Number(this.tasso.value)) && +this.tasso.value !== 0,
+    return new Result(true,
             minSanzione,
             maxSanzione,
             minAmmenda,
@@ -88,7 +90,8 @@ export class Form1Component implements OnInit {
             maxArresto,
             fermo,
             revocaPatente,
-            confisca);
+            confisca,
+            minAmmenda > 0 && moltiplicatoreIncidente === 1);
   }
 
   ngOnInit() {
@@ -110,10 +113,11 @@ export class Result {
   public fermo: boolean;
   public revoca: boolean;
   public confisca: boolean;
+  public assistenza: boolean;
 
   constructor(valid: boolean, minSanzione?: number, maxSanzione?: number, minAmmenda?: number, maxAmmenda?: number,
               minSospensione?: number, maxSospensione?: number, minArresto?: number, maxArresto?: number, fermo?: boolean,
-              revoca?: boolean, confisca?: boolean) {
+              revoca?: boolean, confisca?: boolean, assistenza?: boolean) {
     this.valid = valid;
     this.minSanzione = minSanzione;
     this.maxSanzione = maxSanzione;
@@ -126,6 +130,7 @@ export class Result {
     this.fermo = fermo;
     this.revoca = revoca;
     this.confisca = confisca;
+    this.assistenza = assistenza;
   }
 }
 

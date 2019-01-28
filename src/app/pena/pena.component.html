@@ -10,9 +10,12 @@
     <li *ngIf="result.revoca">revoca della patente ai sensi del capo I, sezione II, del titolo VI CdS</li>
     <li *ngIf="result.confisca">confisca in caso di sentenza di condanna ovvero di applicazione della pena su richiesta delle parti, anche se è stata applicata la sospensione condizionale della pena</li>
     <li *ngIf="result.minAmmenda > 0">le disposizioni relative alle sanzioni accessorie summenzionate si applicano anche in caso di applicazione della pena su richiesta delle parti</li>
+    <li *ngIf="!result.assistenza"><b>le caratteristiche del suo caso non consentono di richiedere assistenza online</b></li>
   </ul>
   <ul *ngIf="!result.valid">
     <li>Dati inseriti non corretti. Riprovare.</li>
   </ul>
+  <a *ngIf="result.assistenza" routerLink="/pena" class="button-link"><button class="button special">Richiedi Assistenza</button></a>
+  <a routerLink="/form1" class="button-link"><button class="button alt">Indietro</button></a>
 </section>
 
