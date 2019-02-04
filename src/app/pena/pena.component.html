@@ -1,3 +1,6 @@
+<header>
+  <h2>Risultato</h2>
+</header>
 <section id="result" class="box">
   <ul *ngIf="result.valid">
     <li *ngIf="result.minAmmenda > 0">autorità competente: tribunale in composizione monocratica</li>
@@ -15,7 +18,7 @@
   <ul *ngIf="!result.valid">
     <li>Dati inseriti non corretti. Riprovare.</li>
   </ul>
-  <a *ngIf="result.assistenza" routerLink="/pena" class="button-link"><button class="button special">Richiedi Assistenza</button></a>
+  <a *ngIf="result.assistenza" routerLink="/signup" class="button-link"><button class="button special">Richiedi Assistenza</button></a>
   <a routerLink="/form1" class="button-link"><button class="button alt">Indietro</button></a>
 </section>
 

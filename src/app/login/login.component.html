@@ -1,0 +1,17 @@
+<header>
+  <h2>Login</h2>
+</header>
+
+<section id="registrazione" class="box">
+  <div class="row uniform 50%">
+    <div class="6u 12u(mobilep)">
+      <input type="text" id="email" [formControl]="email" placeholder="email"><label for="email">email</label>
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="text" id="password" [formControl]="password" placeholder="password"><label for="password">Password</label>
+    </div>
+  </div>
+  <p>{{response}}</p>
+</section>
+
+<button class="button special" (click)="login()">Accedi</button>

@@ -1,0 +1,26 @@
+<header>
+  <h2>Registrazione alla piattaforma</h2>
+</header>
+
+<section id="registrazione" class="box">
+  <div class="row uniform 50%">
+    <div class="6u 12u(mobilep)">
+      <input type="text" id="nome" [formControl]="nome" placeholder="Nome"><label for="nome">Nome</label>
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="text" id="cognome" [formControl]="cognome" placeholder="Cognome"><label for="cognome">Cognome</label>
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="text" id="codicefiscale" [formControl]="codicefiscale" placeholder="Codice Fiscale"><label for="codicefiscale">Codice Fiscale</label>
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="text" id="email" [formControl]="email" placeholder="Indirizzo e-mail"><label for="email">Indirizzo e-mail</label>
+    </div>
+    <div class="6u 12u(mobilep)">
+      <input type="text" id="password" [formControl]="password" placeholder="Password"><label for="password">Password</label>
+    </div>
+  </div>
+  <p>{{response}}</p>
+</section>
+
+<button class="button special" (click)="signup()">Registrati</button>
