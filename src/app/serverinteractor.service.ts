@@ -14,17 +14,17 @@ export class ServerinteractorService {
     return this.http.post<boolean>(this.baseUrl + 'newUser', user);
   }
 
-  public login(email: string, password: string) {
-    return this.http.post<boolean>(this.baseUrl + 'login', {email: email, password: password})
+  public login(codicefiscale: string, password: string) {
+    return this.http.post<boolean>(this.baseUrl + 'login', {codicefiscale: codicefiscale, password: password})
       .pipe(map(result => {
-        sessionStorage.setItem('authToken', btoa(email + ':' + password));
+        sessionStorage.setItem('authToken', btoa(codicefiscale + ':' + password));
         return result;
       }));
   }
 
-  public test() {
+  public test(codicefiscale: string) {
     const headers = new HttpHeaders().set('Authorization', 'Basic ' + sessionStorage.getItem('authToken'));
-    return this.http.get<string>(this.baseUrl + 'test', {headers: headers});
+    return this.http.get<string>(this.baseUrl + 'test', {headers: headers, params: {codicefiscale: codicefiscale}});
   }
 
 }

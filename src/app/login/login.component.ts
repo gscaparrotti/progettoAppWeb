@@ -9,16 +9,18 @@ import {ServerinteractorService} from '../serverinteractor.service';
 })
 export class LoginComponent implements OnInit {
 
-  email = new FormControl('');
+  codicefiscale = new FormControl('');
   password = new FormControl('');
   response = '';
 
-  constructor(private signupService: ServerinteractorService) { }
+  constructor(private serverinteractorService: ServerinteractorService) { }
 
   login() {
-    this.signupService.login(this.email.value, this.password.value).subscribe(success => {
+    this.serverinteractorService.login(this.codicefiscale.value, this.password.value).subscribe(success => {
       if (success) {
-        this.signupService.test().subscribe(result => this.response = result.toString());
+        this.serverinteractorService.test(this.codicefiscale.value).subscribe(result => this.response = result.toString());
+      } else {
+        this.response = 'Password errata';
       }
     });
   }
