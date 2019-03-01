@@ -1,0 +1,14 @@
+<section id="parametri" class="box 6u 6u(mobilep)">
+  <div *ngIf="error.isEmpty && user != null">
+    <h2>I tuoi dati personali</h2>
+    <ul>
+      <li><b>Codice Fiscale: </b> {{user.codicefiscale}}</li>
+      <li><b>Nome: </b> {{user.nome}}</li>
+      <li><b>Cognome: </b> {{user.cognome}}</li>
+      <li><b>e-mail: </b> {{user.email}}</li>
+    </ul>
+  </div>
+  <div *ngIf="error.isDefined">
+    <ul>{{error.get}}</ul>
+  </div>
+</section>

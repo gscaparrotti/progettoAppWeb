@@ -12,6 +12,7 @@ import {StockService} from './stock.service';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
+import { PersonalPageComponent } from './personal-page/personal-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './login/login.component';
     PenaComponent,
     SignUpComponent,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    PersonalPageComponent
   ],
   imports: [
     BrowserModule,

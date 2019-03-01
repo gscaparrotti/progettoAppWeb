@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ServerinteractorService} from '../serverinteractor.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,12 +14,12 @@ export class LoginComponent implements OnInit {
   password = new FormControl('');
   response = '';
 
-  constructor(private serverinteractorService: ServerinteractorService) { }
+  constructor(private serverinteractorService: ServerinteractorService, private router: Router) { }
 
   login() {
     this.serverinteractorService.login(this.codicefiscale.value, this.password.value).subscribe(success => {
       if (success) {
-        this.serverinteractorService.test(this.codicefiscale.value).subscribe(result => this.response = result.toString());
+        this.router.navigate(['/personal-page']);
       } else {
         this.response = 'Password errata';
       }

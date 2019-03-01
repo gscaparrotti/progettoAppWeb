@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ServerinteractorService} from '../serverinteractor.service';
+import {User} from '../model/user';
 
 @Component({
   selector: 'app-sign-up',
@@ -27,8 +28,4 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {
   }
 
-}
-
-export class User {
-  constructor(public codicefiscale: string, public nome: string, public cognome: string, public email: string, public password: string) {}
 }
