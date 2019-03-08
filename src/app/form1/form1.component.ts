@@ -19,6 +19,8 @@ export class Form1Component implements OnInit {
   constructor(private stock: StockService) { }
 
   stockResult() {
+    this.stock.setParams(new Params(this.tasso.value, this.rifiutato.value,
+      this.estraneo.value, this.recidiva.value, this.incidente.value));
     this.stock.setResult(this.calcolaPena());
   }
 
@@ -97,6 +99,11 @@ export class Form1Component implements OnInit {
   ngOnInit() {
   }
 
+}
+
+export class Params {
+  constructor(public tasso: number, public rifiutato: boolean, public estraneo: boolean,
+              public recidiva: boolean, public incidente: boolean) {}
 }
 
 export class Result {

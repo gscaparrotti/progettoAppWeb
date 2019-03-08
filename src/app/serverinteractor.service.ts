@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from './model/user';
 import { map } from 'rxjs/operators';
+import {Params} from './form1/form1.component';
 
 @Injectable()
 export class ServerinteractorService {
@@ -26,6 +27,10 @@ export class ServerinteractorService {
 
   public getUserInfo(codicefiscale: string) {
     return this.http.get<User>(this.baseUrl + 'getUserInfo', {headers: this.headers, params: {codicefiscale: codicefiscale}});
+  }
+
+  public uploadDrunkDrivingAssistanceRequest(codicefiscale: string, params: Params) {
+    return this.http.post<boolean>(this.baseUrl + 'drunkDriving/' + codicefiscale, params, {headers: this.headers});
   }
 
   public test(codicefiscale: string) {
