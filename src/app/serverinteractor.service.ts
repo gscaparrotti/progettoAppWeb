@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {User} from './model/user';
+import {User} from './model/model';
 import { map } from 'rxjs/operators';
 import {Params} from './form1/form1.component';
 

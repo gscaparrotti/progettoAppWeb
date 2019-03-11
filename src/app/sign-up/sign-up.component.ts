@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ServerinteractorService} from '../serverinteractor.service';
-import {User} from '../model/user';
+import {User} from '../model/model';
 import {StockService} from '../stock.service';
 
 @Component({
@@ -24,7 +24,11 @@ export class SignUpComponent implements OnInit {
     this.serverinteractorService
       .signup(new User(this.codicefiscale.value, this.nome.value, this.cognome.value, this.email.value, this.password.value))
       .subscribe(signupResult => {
-        this.response = signupResult === true ? 'Registrazione completata' : 'Errore';
+        if (signupResult === true) {
+          this.updateStatusMessage(false, 'Registrazione completata');
+        } else {
+          this.updateStatusMessage(true);
+        }
         this.serverinteractorService
           .login(this.codicefiscale.value, this.password.value)
           .subscribe(loginResult => {
@@ -32,12 +36,23 @@ export class SignUpComponent implements OnInit {
               this.serverinteractorService
                 .uploadDrunkDrivingAssistanceRequest(this.codicefiscale.value, this.stockService.getParams())
                 .subscribe(requestResult => {
-                  this.response = this.response + ' - ' + (requestResult === true ? 'upload completato' : 'errore');
-                });
-              // this.serverinteractorService.test(this.codicefiscale.value).subscribe(r => this.response += r);
+                  if (requestResult === true) {
+                    this.updateStatusMessage(false, 'Upload completato', true);
+                  } else {
+                    this.updateStatusMessage(true);
+                  }
+                }, e => this.updateStatusMessage(true));
             }
-          });
-      });
+          }, e => this.updateStatusMessage(true));
+      }, e => this.updateStatusMessage(true));
+  }
+
+  updateStatusMessage(isError: boolean, message = '', append = false) {
+    if (isError) {
+      this.response = 'Errore nella procedura di registrazione e/o nell\'upload dei dati. Riprovare.';
+    } else {
+      append ? this.response += message : this.response = message;
+    }
   }
 
   ngOnInit() {
