@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {ServerinteractorService} from '../serverinteractor.service';
 import {User} from '../model/model';
 import {StockService} from '../stock.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,7 +19,8 @@ export class SignUpComponent implements OnInit {
   password = new FormControl('');
   response = '';
 
-  constructor(private serverinteractorService: ServerinteractorService, private stockService: StockService) { }
+  constructor(private serverinteractorService: ServerinteractorService, private stockService: StockService,
+              private router: Router) { }
 
   signup() {
     this.serverinteractorService
@@ -38,6 +40,7 @@ export class SignUpComponent implements OnInit {
                 .subscribe(requestResult => {
                   if (requestResult === true) {
                     this.updateStatusMessage(false, 'Upload completato', true);
+                    this.router.navigate(['/personal-page']);
                   } else {
                     this.updateStatusMessage(true);
                   }
