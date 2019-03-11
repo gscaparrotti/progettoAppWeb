@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerinteractorService} from '../serverinteractor.service';
-import {User} from '../model/user';
+import {LegalAssistance, User} from '../model/model';
 import {Option, option, none} from 'ts-option';
 
 @Component({
@@ -11,6 +11,7 @@ import {Option, option, none} from 'ts-option';
 export class PersonalPageComponent implements OnInit {
 
   user: User;
+  lastRequestIndex = 0;
   error: Option<string> = none;
 
   constructor(private serverInteractorService: ServerinteractorService) { }
@@ -21,6 +22,12 @@ export class PersonalPageComponent implements OnInit {
         if (result != null) {
           this.error = none;
           this.user = result;
+          // at the moment we only show the last request
+          this.user.requiredLegalAssistance.forEach((request, index) => {
+            if (request.requestDate > this.user.requiredLegalAssistance[this.lastRequestIndex].requestDate) {
+              this.lastRequestIndex = index;
+            }
+          });
         } else {
           this.error = option('Impossibile recuperare le informazioni sull\'utente.');
         }

@@ -1,14 +1,38 @@
-<section id="parametri" class="box 6u 6u(mobilep)">
-  <div *ngIf="error.isEmpty && user != null">
-    <h2>I tuoi dati personali</h2>
-    <ul>
-      <li><b>Codice Fiscale: </b> {{user.codicefiscale}}</li>
-      <li><b>Nome: </b> {{user.nome}}</li>
-      <li><b>Cognome: </b> {{user.cognome}}</li>
-      <li><b>e-mail: </b> {{user.email}}</li>
-    </ul>
+<div class="row">
+  <div class="col-6 col-12-narrower">
+    <section id="parametri" class="box">
+      <div *ngIf="error.isEmpty && user != null">
+        <h2>I tuoi dati personali</h2>
+        <ul>
+          <li><b>Codice Fiscale: </b> {{user.codicefiscale}}</li>
+          <li><b>Nome: </b> {{user.nome}}</li>
+          <li><b>Cognome: </b> {{user.cognome}}</li>
+          <li><b>e-mail: </b> {{user.email}}</li>
+        </ul>
+      </div>
+      <div *ngIf="error.isDefined">
+        <ul>{{error.get}}</ul>
+      </div>
+    </section>
   </div>
-  <div *ngIf="error.isDefined">
-    <ul>{{error.get}}</ul>
+  <div class="col-6 col-12-narrower">
+    <section *ngIf="error.isEmpty && user != null && user.requiredLegalAssistance != null" id="richiesta" class="box">
+      <div>
+        <h2>La tua ultima richiesta di assistenza</h2>
+        <ul style="margin-bottom: 0">
+          <li><b>ID richiesta: </b> {{user.requiredLegalAssistance[lastRequestIndex].id}}</li>
+          <li><b>Data richiesta: </b> {{user.requiredLegalAssistance[lastRequestIndex].requestDate}}</li>
+        </ul>
+        <!--instanceof is not available in templates, so we check for the existence of a field only present in DrunkDriving-->
+        <ul *ngIf="user.requiredLegalAssistance[lastRequestIndex].tasso">
+          <li><b>Tipo richiesta: </b>Guida in stato di ebbrezza</li>
+          <li><b>Rilevazione tasso alcolemico: </b> {{user.requiredLegalAssistance[lastRequestIndex].tasso}} grammi/litro</li>
+          <li><b>Recidiva: </b> {{user.requiredLegalAssistance[lastRequestIndex].recidiva === true ? 'sì' : 'no'}}</li>
+          <li><b>Rifiuto accertamento: </b> {{user.requiredLegalAssistance[lastRequestIndex].rifiutato === true ? 'sì' : 'no'}}</li>
+          <li><b>Veicolo appartenente a estraneo: </b> {{user.requiredLegalAssistance[lastRequestIndex].estraneo === true ? 'sì' : 'no'}}</li>
+          <li><b>Incidente: </b> {{user.requiredLegalAssistance[lastRequestIndex].incidente === true ? 'sì' : 'no'}}</li>
+        </ul>
+      </div>
+    </section>
   </div>
-</section>
+</div>
