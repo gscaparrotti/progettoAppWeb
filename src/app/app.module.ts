@@ -13,6 +13,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { PersonalPageComponent } from './personal-page/personal-page.component';
+import {NgTsSpinnerModule} from 'ng-ts-spinner';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PersonalPageComponent } from './personal-page/personal-page.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgTsSpinnerModule
   ],
   providers: [
     ServerinteractorService,

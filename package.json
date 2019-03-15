@@ -22,7 +22,9 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
+    "ng-ts-spinner": "^1.6.3",
     "rxjs": "^5.5.6",
+    "spin.js": "^2.3.2",
     "ts-option": "^1.1.5",
     "zone.js": "^0.8.19"
   },
