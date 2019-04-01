@@ -18,12 +18,15 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.serverinteractorService.login(this.codicefiscale.value, this.password.value).subscribe(success => {
-      if (success) {
-        this.router.navigate(['/personal-page']);
-      } else {
-        this.response = 'Password errata';
-      }
-    });
+        if (success) {
+          this.router.navigate(['/personal-page']);
+        } else {
+          this.response = 'Password errata';
+        }
+      },
+      error => {
+        this.response = 'Errore di comunicazione. Riprovare.';
+      });
   }
 
   ngOnInit() {
