@@ -13,7 +13,7 @@ export class ServerinteractorService {
   constructor(private http: HttpClient) { }
 
   public signup(user: User) {
-    return this.http.post<boolean>(this.baseUrl + 'newUser', user);
+    return this.http.post<boolean>(this.baseUrl + 'users', user);
   }
 
   public login(codicefiscale: string, password: string) {
@@ -21,16 +21,28 @@ export class ServerinteractorService {
       .pipe(map(result => {
         sessionStorage.setItem('codicefiscale', codicefiscale);
         sessionStorage.setItem('authToken', btoa(codicefiscale + ':' + password));
+        this.headers = new HttpHeaders().set('Authorization', 'Basic ' + sessionStorage.getItem('authToken'));
         return result;
       }));
   }
 
   public getUserInfo(codicefiscale: string) {
-    return this.http.get<User>(this.baseUrl + 'getUserInfo', {headers: this.headers, params: {codicefiscale: codicefiscale}});
+    return this.http.get<User>(this.baseUrl + 'users/' + codicefiscale, {headers: this.headers});
   }
 
   public uploadDrunkDrivingAssistanceRequest(codicefiscale: string, params: Params) {
     return this.http.post<boolean>(this.baseUrl + 'drunkDriving/' + codicefiscale, params, {headers: this.headers});
+  }
+
+  public sendFile(codicefiscale: string, requestNumber: number, file: File) {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    return this.http.post<boolean>(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber,
+      formData, {headers: this.headers});
+  }
+
+  public uploadedFilesList(codicefiscale: string, requestNumber: number) {
+    return this.http.get<string[]>(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber, {headers: this.headers});
   }
 
   public test(codicefiscale: string) {
