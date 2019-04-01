@@ -1,0 +1,15 @@
+h5 {
+  font-weight: 600
+}
+
+.no_margin {
+  margin: 0;
+}
+
+.spinnerDiv {
+  position: relative;
+}
+
+.insideSpinner {
+  min-height: 50px;
+}

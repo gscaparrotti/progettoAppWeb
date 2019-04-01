@@ -3,3 +3,8 @@
 .button-link {
   border-style: none !important;
 }
+
+.spinner-overlay {
+  position: fixed !important;
+}
+

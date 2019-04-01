@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-6 col-12-narrower">
     <section id="parametri" class="box">
-      <div *ngIf="error.isEmpty && user != null">
+      <div *ngIf="userInfoError.isEmpty && user != null">
         <h2>I tuoi dati personali</h2>
         <ul>
           <li><b>Codice Fiscale: </b> {{user.codicefiscale}}</li>
@@ -10,16 +10,16 @@
           <li><b>e-mail: </b> {{user.email}}</li>
         </ul>
       </div>
-      <div *ngIf="error.isDefined">
-        <ul>{{error.get}}</ul>
+      <div *ngIf="userInfoError.isDefined">
+        <ul>{{userInfoError.get}}</ul>
       </div>
     </section>
   </div>
   <div class="col-6 col-12-narrower">
-    <section *ngIf="error.isEmpty && user != null && user.requiredLegalAssistance != null" id="richiesta" class="box">
+    <section *ngIf="userInfoError.isEmpty && user != null && user.requiredLegalAssistance != null && user.requiredLegalAssistance.length > 0" id="richiesta" class="box">
       <div>
         <h2>La tua ultima richiesta di assistenza</h2>
-        <ul style="margin-bottom: 0">
+        <ul class="no_margin">
           <li><b>ID richiesta: </b> {{user.requiredLegalAssistance[lastRequestIndex].id}}</li>
           <li><b>Data richiesta: </b> {{user.requiredLegalAssistance[lastRequestIndex].requestDate}}</li>
         </ul>
@@ -32,6 +32,40 @@
           <li><b>Veicolo appartenente a estraneo: </b> {{user.requiredLegalAssistance[lastRequestIndex].estraneo === true ? 'sì' : 'no'}}</li>
           <li><b>Incidente: </b> {{user.requiredLegalAssistance[lastRequestIndex].incidente === true ? 'sì' : 'no'}}</li>
         </ul>
+        <hr>
+        <div class="form-group">
+          <h4>Documentazione relativa alla richiesta di assistenza</h4>
+          <h5>File inviati</h5>
+          <div ng-ts-spinner [spinOn]="communicatingFiles" [options]="{scale: 0.2}" class="spinnerDiv">
+            <div class="insideSpinner">
+              <ng-container *ngIf="filesListError.isEmpty">
+                <ul>
+                  <ng-container *ngIf="alreadyUploadedFiles.length > 0">
+                    <li *ngFor="let file of alreadyUploadedFiles">{{file}}</li>
+                  </ng-container>
+                  <ng-container *ngIf="alreadyUploadedFiles.length === 0">
+                    <li>[Nessun file caricato]</li>
+                  </ng-container>
+                </ul>
+              </ng-container>
+              <ng-container *ngIf="filesListError.isDefined">
+                <p>{{filesListError.get}}</p>
+              </ng-container>
+            </div>
+          </div>
+          <h5>Invio nuovi file</h5>
+          <input type="file" id="fileInput" (change)="handleFileInput(fileInput.files)" style="display: none" #fileInput>
+          <button *ngIf="fileToUpload == null" class="button special" (click)="fileInput.click()">Seleziona file</button>
+          <button *ngIf="fileToUpload != null" class="button special" (click)="uploadFile()">Invia file</button>
+          <p class="no_margin" style="font-size: small">Sono consentiti i seguenti formati: jpeg, png, tiff e pdf</p>
+          <p *ngIf="fileUploadStatus.length > 0">{{fileUploadStatus}}</p>
+        </div>
+      </div>
+      <hr>
+    </section>
+    <section *ngIf="userInfoError.isEmpty && user != null && user.requiredLegalAssistance != null && user.requiredLegalAssistance.length === 0" id="emptyReq" class="box">
+      <div>
+        <h2>Non sono presenti richieste di assistenza</h2>
       </div>
     </section>
   </div>
