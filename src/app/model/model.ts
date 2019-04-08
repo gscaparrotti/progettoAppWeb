@@ -5,15 +5,13 @@ export class User {
   public cognome: string;
   public email: string;
   public password?: string;
-  public requiredLegalAssistance: LegalAssistance[];
 
-  constructor(codicefiscale: string, nome: string, cognome: string, email: string, password?: string, requiredLegalAssistance?: LegalAssistance[]) {
+  constructor(codicefiscale: string, nome: string, cognome: string, email: string, password?: string) {
     this.password = password;
     this.email = email;
     this.cognome = cognome;
     this.nome = nome;
     this.codicefiscale = codicefiscale;
-    this.requiredLegalAssistance = requiredLegalAssistance;
   }
 }
 

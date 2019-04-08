@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {User} from './model/model';
+import {DrunkDriving, LegalAssistance, User} from './model/model';
 import { map } from 'rxjs/operators';
 import {Params} from './form1/form1.component';
+import {JSONUtils} from './utilities/json-utils';
+import JSONToClass = JSONUtils.JSONToClass;
+import JSONDate = JSONUtils.JSONDate;
 
 @Injectable()
 export class ServerinteractorService {
@@ -13,7 +16,7 @@ export class ServerinteractorService {
   constructor(private http: HttpClient) { }
 
   public signup(user: User) {
-    return this.http.post<boolean>(this.baseUrl + 'users', user);
+    return this.http.post<User>(this.baseUrl + 'users', user);
   }
 
   public login(codicefiscale: string, password: string) {
@@ -30,23 +33,33 @@ export class ServerinteractorService {
     return this.http.get<User>(this.baseUrl + 'users/' + codicefiscale, {headers: this.headers});
   }
 
+  public getUserRequests(codicefiscale: string) {
+    return this.http.get<LegalAssistance[]>(this.baseUrl + 'legalAssistance/' + codicefiscale, {headers: this.headers})
+      .pipe(map(result => {
+        for (let i = 0; i < result.length; i++) {
+          JSONDate(result[i], ['requestDate', 'paymentDate']);
+          const protoMap = new Map<string, object>();
+          protoMap.set('.DrunkDriving', DrunkDriving.prototype);
+          protoMap.set('.LegalAssistance', LegalAssistance.prototype);
+          result[i] = JSONToClass(result[i], protoMap);
+        }
+        return result;
+      }));
+  }
+
   public uploadDrunkDrivingAssistanceRequest(codicefiscale: string, params: Params) {
-    return this.http.post<boolean>(this.baseUrl + 'drunkDriving/' + codicefiscale, params, {headers: this.headers});
+    return this.http.post<DrunkDriving>(this.baseUrl + 'drunkDriving/' + codicefiscale, params, {headers: this.headers});
   }
 
   public sendFile(codicefiscale: string, requestNumber: number, file: File) {
     const formData: FormData = new FormData();
     formData.append('file', file);
-    return this.http.post<boolean>(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber,
+    formData.append('returnFile', 'false');
+    return this.http.post(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber,
       formData, {headers: this.headers});
   }
 
   public uploadedFilesList(codicefiscale: string, requestNumber: number) {
     return this.http.get<string[]>(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber, {headers: this.headers});
   }
-
-  public test(codicefiscale: string) {
-    return this.http.get<string>(this.baseUrl + 'test', {headers: this.headers, params: {codicefiscale: codicefiscale}});
-  }
-
 }

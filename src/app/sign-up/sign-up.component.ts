@@ -28,29 +28,21 @@ export class SignUpComponent implements OnInit {
     this.communicating = true;
     this.serverinteractorService
       .signup(new User(this.codicefiscale.value, this.nome.value, this.cognome.value, this.email.value, this.password.value))
-      .subscribe(signupResult => {
-        if (signupResult === true) {
-          this.updateStatus(false, 'Registrazione completata');
-        } else {
-          this.updateStatus(true);
-        }
+      .subscribe(() => {
+        this.updateStatus(false, 'Registrazione completata');
         this.serverinteractorService
           .login(this.codicefiscale.value, this.password.value)
           .subscribe(loginResult => {
             if (loginResult) {
               this.serverinteractorService
                 .uploadDrunkDrivingAssistanceRequest(this.codicefiscale.value, this.stockService.getParams())
-                .subscribe(requestResult => {
-                  if (requestResult === true) {
-                    this.updateStatus(false, 'Upload completato', true);
-                    this.router.navigate(['/personal-page']);
-                  } else {
-                    this.updateStatus(true);
-                  }
-                }, e => this.updateStatus(true));
+                .subscribe(() => {
+                  this.updateStatus(false, 'Upload completato', true);
+                  this.router.navigate(['/personal-page']);
+                }, () => this.updateStatus(true));
             }
-          }, e => this.updateStatus(true));
-      }, e => this.updateStatus(true));
+          }, () => this.updateStatus(true));
+      }, () => this.updateStatus(true));
   }
 
   updateStatus(isError: boolean, message = '', append = false) {

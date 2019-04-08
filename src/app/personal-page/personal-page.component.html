@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-6 col-12-narrower">
     <section id="parametri" class="box">
-      <div *ngIf="userInfoError.isEmpty && user != null">
+      <div *ngIf="userInfoError.isEmpty && user.isDefined">
         <h2>I tuoi dati personali</h2>
         <ul>
-          <li><b>Codice Fiscale: </b> {{user.codicefiscale}}</li>
-          <li><b>Nome: </b> {{user.nome}}</li>
-          <li><b>Cognome: </b> {{user.cognome}}</li>
-          <li><b>e-mail: </b> {{user.email}}</li>
+          <li><b>Codice Fiscale: </b> {{user.get.codicefiscale}}</li>
+          <li><b>Nome: </b> {{user.get.nome}}</li>
+          <li><b>Cognome: </b> {{user.get.cognome}}</li>
+          <li><b>e-mail: </b> {{user.get.email}}</li>
         </ul>
       </div>
       <div *ngIf="userInfoError.isDefined">
@@ -16,21 +16,21 @@
     </section>
   </div>
   <div class="col-6 col-12-narrower">
-    <section *ngIf="userInfoError.isEmpty && user != null && user.requiredLegalAssistance != null && user.requiredLegalAssistance.length > 0" id="richiesta" class="box">
+    <section *ngIf="userInfoError.isEmpty && user.isDefined && request.isDefined" id="richiesta" class="box">
       <div>
         <h2>La tua ultima richiesta di assistenza</h2>
         <ul class="no_margin">
-          <li><b>ID richiesta: </b> {{user.requiredLegalAssistance[lastRequestIndex].id}}</li>
-          <li><b>Data richiesta: </b> {{user.requiredLegalAssistance[lastRequestIndex].requestDate}}</li>
+          <li><b>ID richiesta: </b> {{request.get.id}}</li>
+          <li><b>Data richiesta: </b> {{request.get.requestDate.toLocaleString([], {day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"})}}</li>
         </ul>
         <!--instanceof is not available in templates, so we check for the existence of a field only present in DrunkDriving-->
-        <ul *ngIf="user.requiredLegalAssistance[lastRequestIndex].tasso">
+        <ul *ngIf="drunkDriving.isDefined">
           <li><b>Tipo richiesta: </b>Guida in stato di ebbrezza</li>
-          <li><b>Rilevazione tasso alcolemico: </b> {{user.requiredLegalAssistance[lastRequestIndex].tasso}} grammi/litro</li>
-          <li><b>Recidiva: </b> {{user.requiredLegalAssistance[lastRequestIndex].recidiva === true ? 'sì' : 'no'}}</li>
-          <li><b>Rifiuto accertamento: </b> {{user.requiredLegalAssistance[lastRequestIndex].rifiutato === true ? 'sì' : 'no'}}</li>
-          <li><b>Veicolo appartenente a estraneo: </b> {{user.requiredLegalAssistance[lastRequestIndex].estraneo === true ? 'sì' : 'no'}}</li>
-          <li><b>Incidente: </b> {{user.requiredLegalAssistance[lastRequestIndex].incidente === true ? 'sì' : 'no'}}</li>
+          <li><b>Rilevazione tasso alcolemico: </b> {{drunkDriving.get.tasso}} grammi/litro</li>
+          <li><b>Recidiva: </b> {{drunkDriving.get.recidiva === true ? 'sì' : 'no'}}</li>
+          <li><b>Rifiuto accertamento: </b> {{drunkDriving.get.rifiutato === true ? 'sì' : 'no'}}</li>
+          <li><b>Veicolo appartenente a estraneo: </b> {{drunkDriving.get.estraneo === true ? 'sì' : 'no'}}</li>
+          <li><b>Incidente: </b> {{drunkDriving.get.incidente === true ? 'sì' : 'no'}}</li>
         </ul>
         <hr>
         <div class="form-group">
@@ -55,15 +55,15 @@
           </div>
           <h5>Invio nuovi file</h5>
           <input type="file" id="fileInput" (change)="handleFileInput(fileInput.files)" style="display: none" #fileInput>
-          <button *ngIf="fileToUpload == null" class="button special" (click)="fileInput.click()">Seleziona file</button>
-          <button *ngIf="fileToUpload != null" class="button special" (click)="uploadFile()">Invia file</button>
+          <button *ngIf="!fileToUpload.isDefined" class="button special" (click)="fileInput.click()">Seleziona file</button>
+          <button *ngIf="fileToUpload.isDefined" class="button special" (click)="uploadFile()">Invia file</button>
           <p class="no_margin" style="font-size: small">Sono consentiti i seguenti formati: jpeg, png, tiff e pdf</p>
           <p *ngIf="fileUploadStatus.length > 0">{{fileUploadStatus}}</p>
         </div>
       </div>
       <hr>
     </section>
-    <section *ngIf="userInfoError.isEmpty && user != null && user.requiredLegalAssistance != null && user.requiredLegalAssistance.length === 0" id="emptyReq" class="box">
+    <section *ngIf="userInfoError.isEmpty && user.isDefined && !request.isDefined" id="emptyReq" class="box">
       <div>
         <h2>Non sono presenti richieste di assistenza</h2>
       </div>
