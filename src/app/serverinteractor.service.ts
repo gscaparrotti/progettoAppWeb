@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {DrunkDriving, LegalAssistance, User} from './model/model';
+import {DrunkDriving, LegalAssistance, Picture, User} from './model/model';
 import { map } from 'rxjs/operators';
 import {Params} from './form1/form1.component';
 import {JSONUtils} from './utilities/json-utils';
@@ -57,6 +57,16 @@ export class ServerinteractorService {
     formData.append('returnFile', 'false');
     return this.http.post(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber,
       formData, {headers: this.headers});
+  }
+
+  public getFile(codicefiscale: string, requestNumber: number, fileName: string) {
+    return this.http.get<Picture>(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber + '/' + fileName,
+      {headers: this.headers})
+  }
+
+  public deleteFile(codicefiscale: string, requestNumber: number, fileName: string) {
+    return this.http.delete(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber + '/' + fileName,
+      {headers: this.headers})
   }
 
   public uploadedFilesList(codicefiscale: string, requestNumber: number) {

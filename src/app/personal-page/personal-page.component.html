@@ -19,7 +19,7 @@
     <section *ngIf="userInfoError.isEmpty && user.isDefined && request.isDefined" id="richiesta" class="box">
       <div>
         <h2>La tua ultima richiesta di assistenza</h2>
-        <ul class="no_margin">
+        <ul class="no_margin_bottom">
           <li><b>ID richiesta: </b> {{request.get.id}}</li>
           <li><b>Data richiesta: </b> {{request.get.requestDate.toLocaleString([], {day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"})}}</li>
         </ul>
@@ -39,17 +39,33 @@
           <div ng-ts-spinner [spinOn]="communicatingFiles" [options]="{scale: 0.2}" class="spinnerDiv">
             <div class="insideSpinner">
               <ng-container *ngIf="filesListError.isEmpty">
-                <ul>
+                <table class="alt">
+                  <thead>
+                    <tr>
+                      <td>Nome file</td>
+                      <td>Comandi</td>
+                    </tr>
+                  </thead>
                   <ng-container *ngIf="alreadyUploadedFiles.length > 0">
-                    <li *ngFor="let file of alreadyUploadedFiles">{{file}}</li>
+                    <tr *ngFor="let file of alreadyUploadedFiles">
+                      <td>{{file}}</td>
+                      <td class="centered">
+                        <span class="orange icon fa-picture-o ok_margin_sides" (click)="getFile(file)"></span>
+                        <span class="orange icon fa-trash-o ok_margin_sides" (click)="deleteFile(file)"></span>
+                      </td>
+                    </tr>
                   </ng-container>
                   <ng-container *ngIf="alreadyUploadedFiles.length === 0">
-                    <li>[Nessun file caricato]</li>
+                    <tr>
+                      <td>[Nessun file caricato]</td>
+                      <td></td>
+                    </tr>
                   </ng-container>
-                </ul>
+                </table>
               </ng-container>
               <ng-container *ngIf="filesListError.isDefined">
-                <p>{{filesListError.get}}</p>
+                <p class="no_margin_bottom">{{filesListError.get}}</p>
+                <button class="button special small ok_margin_bottom" (click)="updateFilesList()">Riprova</button>
               </ng-container>
             </div>
           </div>
@@ -57,8 +73,8 @@
           <input type="file" id="fileInput" (change)="handleFileInput(fileInput.files)" style="display: none" #fileInput>
           <button *ngIf="!fileToUpload.isDefined" class="button special" (click)="fileInput.click()">Seleziona file</button>
           <button *ngIf="fileToUpload.isDefined" class="button special" (click)="uploadFile()">Invia file</button>
-          <p class="no_margin" style="font-size: small">Sono consentiti i seguenti formati: jpeg, png, tiff e pdf</p>
-          <p *ngIf="fileUploadStatus.length > 0">{{fileUploadStatus}}</p>
+          <p class="no_margin_bottom" style="font-size: small">Sono consentiti i seguenti formati: jpeg, png, tiff e pdf</p>
+          <p *ngIf="fileStatus.length > 0">{{fileStatus}}</p>
         </div>
       </div>
       <hr>

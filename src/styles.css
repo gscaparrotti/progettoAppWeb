@@ -8,3 +8,6 @@
   position: fixed !important;
 }
 
+.lb-close {
+  border-style: none !important;
+}

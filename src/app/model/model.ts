@@ -53,4 +53,28 @@ export class DrunkDriving extends LegalAssistance {
   }
 }
 
+export class Picture {
+
+  public id: PictureID;
+  public data: string;
+
+
+  constructor(id: PictureID, data: string) {
+    this.id = id;
+    this.data = data;
+  }
+}
+
+export class PictureID {
+
+  public filename: string;
+  public request: number;
+
+
+  constructor(filename: string, request: number) {
+    this.filename = filename;
+    this.request = request;
+  }
+}
+
 

@@ -3,6 +3,10 @@ import {ServerinteractorService} from '../serverinteractor.service';
 import {DrunkDriving, LegalAssistance, User} from '../model/model';
 import {Option, option, none} from 'ts-option';
 import * as HttpStatus from 'http-status-codes';
+import {b64Utils} from '../utilities/b64-utils';
+import b64ToBlob = b64Utils.b64ToBlob;
+import {IAlbum, Lightbox, LightboxConfig} from 'ngx-lightbox';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-personal-page',
@@ -18,10 +22,11 @@ export class PersonalPageComponent implements OnInit {
   filesListError: Option<string> = none;
   fileToUpload: Option<File> = none;
   communicatingFiles = false;
-  fileUploadStatus = '';
+  fileStatus = '';
   alreadyUploadedFiles: string[] = [];
 
-  constructor(private serverInteractorService: ServerinteractorService) { }
+  constructor(private serverInteractorService: ServerinteractorService, private lightbox: Lightbox,
+              private lightboxConfig: LightboxConfig, private router: Router) { }
 
   ngOnInit() {
     this.getUserInfo();
@@ -62,6 +67,7 @@ export class PersonalPageComponent implements OnInit {
 
   updateFilesList() {
     if (this.request.isDefined && this.user.isDefined) {
+      this.filesListError = none;
       this.communicatingFiles = true;
       this.serverInteractorService.uploadedFilesList(this.user.get.codicefiscale, this.request.get.id).subscribe(fileResult => {
         this.alreadyUploadedFiles = fileResult;
@@ -75,27 +81,59 @@ export class PersonalPageComponent implements OnInit {
 
   handleFileInput(files: FileList) {
     if (files.length > 0) {
-      this.fileUploadStatus = '';
+      this.fileStatus = '';
       this.fileToUpload = option(files.item(0));
-      this.fileUploadStatus = 'File selezionato: ' + files.item(0).name;
+      this.fileStatus = 'File selezionato: ' + files.item(0).name;
     }
   }
 
   uploadFile() {
-    if (this.fileToUpload.isDefined && this.request.isDefined) {
-      this.serverInteractorService.sendFile(sessionStorage.getItem('codicefiscale'),
-        this.request.get.id, this.fileToUpload.get)
+    if (this.user.isDefined && this.fileToUpload.isDefined && this.request.isDefined) {
+      this.serverInteractorService.sendFile(this.user.get.codicefiscale, this.request.get.id, this.fileToUpload.get)
         .subscribe(() => {
-          this.fileUploadStatus = 'Il file ' + this.fileToUpload.get.name + ' è stato inviato con successo';
+          this.fileStatus = 'Il file ' + this.fileToUpload.get.name + ' è stato inviato con successo';
           this.updateFilesList();
           this.fileToUpload = none;
         }, error => {
           if (error.status === HttpStatus.CONFLICT) {
-            this.fileUploadStatus = 'Impossibile inviare il file (possibile file duplicato)';
+            this.fileStatus = 'Impossibile inviare il file (possibile file duplicato)';
           } else {
-            this.fileUploadStatus = 'Errore nell\'invio del file';
+            this.fileStatus = 'Errore nell\'invio del file';
           }
           this.fileToUpload = none;
+        });
+    }
+  }
+
+  getFile(fileName: string) {
+    if (this.user.isDefined && this.request.isDefined) {
+      this.fileStatus = '';
+      this.serverInteractorService.getFile(this.user.get.codicefiscale, this.request.get.id, fileName)
+        .subscribe(file => {
+          const fileReader = new FileReader();
+          fileReader.onload = (event:any) => {
+            const album: Array<IAlbum> = [];
+            album.push({src: event.target.result, caption: file.id.filename, thumb: null});
+            this.router.events.subscribe(() => this.lightbox.close());
+            this.lightbox.open(album, 0, {centerVertically: true, disableScrolling: true});
+          };
+          fileReader.readAsDataURL(b64ToBlob(file.data, 'image/' + file.id.filename.split('.')[1]));
+        }, () => {
+          this.fileStatus = 'Errore nella ricezione del file';
+        });
+    }
+  }
+
+  deleteFile(fileName: string) {
+    if (this.user.isDefined && this.request.isDefined) {
+      this.fileStatus = '';
+      this.serverInteractorService.deleteFile(this.user.get.codicefiscale, this.request.get.id, fileName)
+        .subscribe(() => {
+          this.fileStatus = 'Il file ' + fileName + ' è stato eliminato con successo';
+          this.updateFilesList();
+        }, () => {
+          this.fileStatus = 'Errore nell\'eliminazione del file';
+          this.updateFilesList();
         });
     }
   }

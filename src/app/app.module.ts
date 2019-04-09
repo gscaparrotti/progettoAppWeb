@@ -14,6 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { PersonalPageComponent } from './personal-page/personal-page.component';
 import {NgTsSpinnerModule} from 'ng-ts-spinner';
+import {LightboxModule} from 'ngx-lightbox';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {NgTsSpinnerModule} from 'ng-ts-spinner';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgTsSpinnerModule
+    NgTsSpinnerModule,
+    LightboxModule
   ],
   providers: [
     ServerinteractorService,
