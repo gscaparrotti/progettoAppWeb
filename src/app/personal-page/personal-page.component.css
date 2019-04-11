@@ -30,3 +30,7 @@ h5 {
 .orange {
   color: #e89980;
 }
+
+.clickable {
+  cursor: pointer;
+}

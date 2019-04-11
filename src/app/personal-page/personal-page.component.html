@@ -50,8 +50,8 @@
                     <tr *ngFor="let file of alreadyUploadedFiles">
                       <td>{{file}}</td>
                       <td class="centered">
-                        <span class="orange icon fa-picture-o ok_margin_sides" (click)="getFile(file)"></span>
-                        <span class="orange icon fa-trash-o ok_margin_sides" (click)="deleteFile(file)"></span>
+                        <span class="orange icon clickable fa-picture-o ok_margin_sides" (click)="getFile(file)"></span>
+                        <span class="orange icon clickable fa-trash-o ok_margin_sides" (click)="deleteFile(file)"></span>
                       </td>
                     </tr>
                   </ng-container>
@@ -73,7 +73,7 @@
           <input type="file" id="fileInput" (change)="handleFileInput(fileInput.files)" style="display: none" #fileInput>
           <button *ngIf="!fileToUpload.isDefined" class="button special" (click)="fileInput.click()">Seleziona file</button>
           <button *ngIf="fileToUpload.isDefined" class="button special" (click)="uploadFile()">Invia file</button>
-          <p class="no_margin_bottom" style="font-size: small">Sono consentiti i seguenti formati: jpeg, png, tiff e pdf</p>
+          <p class="no_margin_bottom" style="font-size: small">Sono consentiti i seguenti formati: jpeg, png, tiff</p>
           <p *ngIf="fileStatus.length > 0">{{fileStatus}}</p>
         </div>
       </div>
