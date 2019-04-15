@@ -2,6 +2,10 @@ h5 {
   font-weight: 600
 }
 
+h3 {
+  font-size: 1.3em;
+}
+
 .no_margin_bottom {
   margin: 0;
 }
@@ -13,10 +17,6 @@ h5 {
 .ok_margin_sides {
   margin-left: 0.5em;
   margin-right: 0.5em;
-}
-
-.spinnerDiv {
-  position: relative;
 }
 
 .insideSpinner {
@@ -33,4 +33,8 @@ h5 {
 
 .clickable {
   cursor: pointer;
+}
+
+.centered {
+  text-align: center;
 }

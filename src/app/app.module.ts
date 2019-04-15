@@ -15,6 +15,8 @@ import { LoginComponent } from './login/login.component';
 import { PersonalPageComponent } from './personal-page/personal-page.component';
 import {NgTsSpinnerModule} from 'ng-ts-spinner';
 import {LightboxModule} from 'ngx-lightbox';
+import {FormsModule} from '@angular/forms';
+import { CheckoutComponent } from './checkout/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import {LightboxModule} from 'ngx-lightbox';
     SignUpComponent,
     HeaderComponent,
     LoginComponent,
-    PersonalPageComponent
+    PersonalPageComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import {LightboxModule} from 'ngx-lightbox';
     ReactiveFormsModule,
     HttpClientModule,
     NgTsSpinnerModule,
-    LightboxModule
+    LightboxModule,
+    FormsModule
   ],
   providers: [
     ServerinteractorService,

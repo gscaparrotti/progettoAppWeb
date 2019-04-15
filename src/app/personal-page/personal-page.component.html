@@ -34,7 +34,7 @@
         </ul>
         <hr>
         <div class="form-group">
-          <h4>Documentazione relativa alla richiesta di assistenza</h4>
+          <h3 class="centered">Documentazione relativa alla richiesta di assistenza</h3>
           <h5>File inviati</h5>
           <div ng-ts-spinner [spinOn]="communicatingFiles" [options]="{scale: 0.2}" class="spinnerDiv">
             <div class="insideSpinner">
@@ -78,6 +78,11 @@
         </div>
       </div>
       <hr>
+      <div>
+        <h3 class="centered">Pagamento della prestazione legale</h3>
+        <app-checkout *ngIf="request.get.paymentDate <= 0" [codicefiscale]="user.get.codicefiscale" [request]="request.get.id"></app-checkout>
+        <p *ngIf="request.get.paymentDate > 0">Prestazione già pagata</p>
+      </div>
     </section>
     <section *ngIf="userInfoError.isEmpty && user.isDefined && !request.isDefined" id="emptyReq" class="box">
       <div>

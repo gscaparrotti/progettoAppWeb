@@ -11,3 +11,7 @@
 .lb-close {
   border-style: none !important;
 }
+
+.spinnerDiv {
+  position: relative;
+}

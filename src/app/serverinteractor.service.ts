@@ -72,4 +72,12 @@ export class ServerinteractorService {
   public uploadedFilesList(codicefiscale: string, requestNumber: number) {
     return this.http.get<string[]>(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber, {headers: this.headers});
   }
+
+  public sendPaymentRequest(codicefiscale: string, requestNumber: number, token: string) {
+    const formData: FormData = new FormData();
+    formData.append('token', token);
+    formData.append('user', codicefiscale);
+    formData.append('request', requestNumber.toString());
+    return this.http.post(this.baseUrl + 'payWithCC', formData, {headers: this.headers});
+  }
 }
