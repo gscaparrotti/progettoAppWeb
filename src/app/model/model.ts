@@ -77,4 +77,19 @@ export class PictureID {
   }
 }
 
+export class Message {
+
+  public id: number;
+  public message: string;
+  public fromUser: boolean;
+  public date: Date;
+
+  constructor(id: number, message: string, fromUser: boolean, date: Date) {
+    this.id = id;
+    this.message = message;
+    this.fromUser = fromUser;
+    this.date = date;
+  }
+}
+
 

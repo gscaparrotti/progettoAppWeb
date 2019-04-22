@@ -38,3 +38,65 @@ h3 {
 .centered {
   text-align: center;
 }
+
+#messageTextAreaId {
+  margin-bottom: 1em;
+}
+
+.speech-bubble {
+  position: relative;
+  border-radius: .4em;
+  max-width: 20em;
+  padding: .4em;
+  margin-bottom: 2em;
+}
+
+.speech-bubble-right {
+  background: #f7ded4;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.speech-bubble-left {
+  background: #e6e6e6;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-bottom: 0;
+  margin-bottom: -20px;
+}
+
+.speech-bubble.speech-bubble-right:after {
+  border-top-color: #f7ded4;
+  border-right: 0;
+}
+
+.speech-bubble.speech-bubble-left:after {
+  border-top-color: #e6e6e6;
+  border-left: 0;
+}
+
+.title-flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.right-spinner {
+  margin-left: auto;
+  margin-right: 0;
+  width: 0;
+  padding-right: 30px;
+}
+
+.file-td {
+  width: 20em;
+}

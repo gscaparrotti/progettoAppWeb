@@ -46,9 +46,9 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy{
         () => {
           this.done = true;
           this.message = 'Pagamento riuscito!';
+          this.communicating = false;
       }, () => {
-          this.message = 'Errore nel pagamento. Riprovare.'
-        }, () => {
+          this.message = 'Errore nel pagamento. Riprovare.';
           this.communicating = false;
         });
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {DrunkDriving, LegalAssistance, Picture, User} from './model/model';
+import {DrunkDriving, LegalAssistance, Message, Picture, User} from './model/model';
 import { map } from 'rxjs/operators';
 import {Params} from './form1/form1.component';
 import {JSONUtils} from './utilities/json-utils';
@@ -48,7 +48,9 @@ export class ServerinteractorService {
   }
 
   public uploadDrunkDrivingAssistanceRequest(codicefiscale: string, params: Params) {
-    return this.http.post<DrunkDriving>(this.baseUrl + 'drunkDriving/' + codicefiscale, params, {headers: this.headers});
+    const data: any = params;
+    data.className = '.DrunkDriving';
+    return this.http.post<DrunkDriving>(this.baseUrl + 'drunkDriving/' + codicefiscale, data, {headers: this.headers});
   }
 
   public sendFile(codicefiscale: string, requestNumber: number, file: File) {
@@ -70,7 +72,31 @@ export class ServerinteractorService {
   }
 
   public uploadedFilesList(codicefiscale: string, requestNumber: number) {
-    return this.http.get<string[]>(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber, {headers: this.headers});
+    return this.http.get<Picture[]>(this.baseUrl + 'files/' + codicefiscale + '/' + requestNumber,
+      {headers: this.headers, params: {"keepContent": "false"}})
+      .pipe(map(result => {
+        const names = new Array<string>();
+        result.forEach(picture => {
+          names.push(picture.id.filename);
+        });
+        return names;
+      }));
+  }
+
+  public getMessages(codicefiscale: string, requestNumber: number) {
+    return this.http.get<Message[]>(this.baseUrl + 'messages/' + codicefiscale + '/' + requestNumber,
+      {headers: this.headers})
+      .pipe(map(result => {
+        for (let i = 0; i < result.length; i++) {
+          JSONDate(result[i], ['date']);
+        }
+        return result;
+      }));
+  }
+
+  public sendMessage(codicefiscale: string, requestNumber: number, message: Message) {
+    return this.http.post(this.baseUrl + 'messages/' + codicefiscale + '/' + requestNumber, message,
+      {headers: this.headers});
   }
 
   public sendPaymentRequest(codicefiscale: string, requestNumber: number, token: string) {

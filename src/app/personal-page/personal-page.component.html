@@ -1,3 +1,4 @@
+<div ng-ts-spinner [spinOn]="communicatingUser" [overlayWhileSpin]=true></div>
 <div class="row">
   <div class="col-6 col-12-narrower">
     <section id="parametri" class="box">
@@ -35,7 +36,7 @@
         <hr>
         <div class="form-group">
           <h3 class="centered">Documentazione relativa alla richiesta di assistenza</h3>
-          <h5>File inviati</h5>
+          <h5>File inviati - <span class="icon orange clickable fa-refresh" (click)="updateFilesList()"></span></h5>
           <div ng-ts-spinner [spinOn]="communicatingFiles" [options]="{scale: 0.2}" class="spinnerDiv">
             <div class="insideSpinner">
               <ng-container *ngIf="filesListError.isEmpty">
@@ -48,7 +49,7 @@
                   </thead>
                   <ng-container *ngIf="alreadyUploadedFiles.length > 0">
                     <tr *ngFor="let file of alreadyUploadedFiles">
-                      <td>{{file}}</td>
+                      <td class="file-td">{{file}}</td>
                       <td class="centered">
                         <span class="orange icon clickable fa-picture-o ok_margin_sides" (click)="getFile(file)"></span>
                         <span class="orange icon clickable fa-trash-o ok_margin_sides" (click)="deleteFile(file)"></span>
@@ -76,6 +77,37 @@
           <p class="no_margin_bottom" style="font-size: small">Sono consentiti i seguenti formati: jpeg, png, tiff</p>
           <p *ngIf="fileStatus.length > 0">{{fileStatus}}</p>
         </div>
+      </div>
+      <hr>
+      <div>
+        <h3 class="centered">Messaggi</h3>
+        <div class="title-flex-container">
+          <h5>Messaggi inviati - <span class="icon orange clickable fa-refresh" (click)="updateMessages()"></span></h5>
+          <div ng-ts-spinner [spinOn]="communicatingMessages" [options]="{scale: 0.1}" class="spinnerDiv right-spinner"></div>
+        </div>
+        <ng-container *ngIf="messagesError.isEmpty">
+          <ng-container *ngIf="messages.length > 0">
+            <ng-container *ngFor="let message of messages">
+              <ng-container *ngIf="message.fromUser">
+                <div class="speech-bubble speech-bubble-right">{{message.message}}</div>
+              </ng-container>
+              <ng-container *ngIf="!message.fromUser">
+                <div class="speech-bubble speech-bubble-left">{{message.message}}</div>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="messages.length === 0">
+            <div class="speech-bubble speech-bubble-right">[Nessun messaggio]</div>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="messagesError.isDefined">
+          <p class="no_margin_bottom">{{messagesError.get}}</p>
+          <button class="button special small ok_margin_bottom" (click)="updateMessages()">Riprova</button>
+        </ng-container>
+        <label for="messageTextAreaId">Inserisci qui il tuo nuovo messaggio</label>
+        <textarea id="messageTextAreaId" style="resize: none" #messageTextArea></textarea>
+        <button class="button special" (click)="sendMessage(messageTextArea.value)">Invia messaggio</button>
+        <p *ngIf="messageSendError.isDefined">{{messageSendError.get}}</p>
       </div>
       <hr>
       <div>
