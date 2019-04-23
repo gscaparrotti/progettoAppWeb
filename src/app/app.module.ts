@@ -16,7 +16,11 @@ import { PersonalPageComponent } from './personal-page/personal-page.component';
 import {NgTsSpinnerModule} from 'ng-ts-spinner';
 import {LightboxModule} from 'ngx-lightbox';
 import {FormsModule} from '@angular/forms';
-import { CheckoutComponent } from './checkout/checkout/checkout.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { PictureManagerComponent } from './picture-manager/picture-manager.component';
+import { MessageManagerComponent } from './message-manager/message-manager.component';
+import { RequestDetailComponent } from './request-detail/request-detail.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { CheckoutComponent } from './checkout/checkout/checkout.component';
     HeaderComponent,
     LoginComponent,
     PersonalPageComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    PictureManagerComponent,
+    MessageManagerComponent,
+    RequestDetailComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,

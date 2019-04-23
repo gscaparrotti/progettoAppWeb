@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { NgForm } from '@angular/forms';
-import {ServerinteractorService} from '../../serverinteractor.service';
+import {ServerinteractorService} from '../serverinteractor.service';
 
 @Component({
   selector: 'app-checkout',
@@ -18,6 +18,7 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy{
 
   @Input() codicefiscale: string;
   @Input() request: number;
+  @Input() paid: boolean;
   @ViewChild('cardInfo') cardInfo: ElementRef;
   card: any;
   message: string = '';
@@ -36,21 +37,23 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy{
   }
 
   async onSubmit(form: NgForm) {
-    this.communicating = true;
-    const { token, error } = await stripe.createToken(this.card);
-    if (error) {
-      this.message = 'Errore nel pagamento. Riprovare.';
-      this.communicating = false;
-    } else {
-      this.serverInteractorService.sendPaymentRequest(this.codicefiscale, this.request, token.id).subscribe(
-        () => {
-          this.done = true;
-          this.message = 'Pagamento riuscito!';
-          this.communicating = false;
-      }, () => {
-          this.message = 'Errore nel pagamento. Riprovare.';
-          this.communicating = false;
-        });
+    if (this.codicefiscale != undefined && this.request != undefined) {
+      this.communicating = true;
+      const { token, error } = await stripe.createToken(this.card);
+      if (error) {
+        this.message = 'Errore nel pagamento. Riprovare.';
+        this.communicating = false;
+      } else {
+        this.serverInteractorService.sendPaymentRequest(this.codicefiscale, this.request, token.id).subscribe(
+          () => {
+            this.done = true;
+            this.message = 'Pagamento riuscito!';
+            this.communicating = false;
+          }, () => {
+            this.message = 'Errore nel pagamento. Riprovare.';
+            this.communicating = false;
+          });
+      }
     }
   }
 

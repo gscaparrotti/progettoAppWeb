@@ -1,0 +1,15 @@
+<div *ngIf="request.isDefined">
+  <h2 class="centered">Richiesta di assistenza n. {{request.get.id}}</h2>
+  <ul class="no_margin_bottom">
+    <li><b>ID richiesta: </b> {{request.get.id}}</li>
+    <li><b>Data richiesta: </b> {{request.get.requestDate.toLocaleString([], {day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"})}}</li>
+  </ul>
+  <ul *ngIf="drunkDriving.isDefined">
+    <li><b>Tipo richiesta: </b>Guida in stato di ebbrezza</li>
+    <li><b>Rilevazione tasso alcolemico: </b> {{drunkDriving.get.tasso}} grammi/litro</li>
+    <li><b>Recidiva: </b> {{drunkDriving.get.recidiva === true ? 'sì' : 'no'}}</li>
+    <li><b>Rifiuto accertamento: </b> {{drunkDriving.get.rifiutato === true ? 'sì' : 'no'}}</li>
+    <li><b>Veicolo appartenente a estraneo: </b> {{drunkDriving.get.estraneo === true ? 'sì' : 'no'}}</li>
+    <li><b>Incidente: </b> {{drunkDriving.get.incidente === true ? 'sì' : 'no'}}</li>
+  </ul>
+</div>

@@ -1,9 +1,0 @@
-<form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout" id="checkout-form">
-  <div class="form-row">
-    <div id="card-info" #cardInfo></div>
-  </div>
-  <div ng-ts-spinner [spinOn]="communicating" class="spinnerDiv">
-    <button *ngIf="!done && !communicating" class="special button" id="checkout-button" type="submit">Paga ora</button>
-    <p class="message">{{message}}</p>
-  </div>
-</form>

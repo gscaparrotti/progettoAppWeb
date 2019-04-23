@@ -1,0 +1,9 @@
+<div *ngIf="user.isDefined">
+  <h2 class="centered">Dati personali</h2>
+  <ul>
+    <li><b>Codice Fiscale: </b> {{user.get.codicefiscale}}</li>
+    <li><b>Nome: </b> {{user.get.nome}}</li>
+    <li><b>Cognome: </b> {{user.get.cognome}}</li>
+    <li><b>e-mail: </b> {{user.get.email}}</li>
+  </ul>
+</div>

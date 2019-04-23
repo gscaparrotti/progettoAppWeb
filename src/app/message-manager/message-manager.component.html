@@ -1,0 +1,30 @@
+<div *ngIf="user.isDefined && request.isDefined">
+  <h3 class="centered">Messaggi</h3>
+  <div class="title-flex-container">
+    <h5>Messaggi inviati - <span class="icon orange clickable fa-refresh" (click)="updateMessages()"></span></h5>
+    <div ng-ts-spinner [spinOn]="communicatingMessages" [options]="{scale: 0.1}" class="spinnerDiv right-spinner"></div>
+  </div>
+  <ng-container *ngIf="messagesError.isEmpty">
+    <ng-container *ngIf="messages.length > 0">
+      <ng-container *ngFor="let message of messages">
+        <ng-container *ngIf="message.fromUser">
+          <div class="speech-bubble speech-bubble-right">{{message.message}}</div>
+        </ng-container>
+        <ng-container *ngIf="!message.fromUser">
+          <div class="speech-bubble speech-bubble-left">{{message.message}}</div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="messages.length === 0">
+      <div class="speech-bubble speech-bubble-right">[Nessun messaggio]</div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="messagesError.isDefined">
+    <p class="no_margin_bottom">{{messagesError.get}}</p>
+    <button class="button special small ok_margin_bottom" (click)="updateMessages()">Riprova</button>
+  </ng-container>
+  <label for="messageTextAreaId">Inserisci qui il tuo nuovo messaggio</label>
+  <textarea id="messageTextAreaId" style="resize: none" #messageTextArea></textarea>
+  <button class="button special" (click)="sendMessage(messageTextArea.value)">Invia messaggio</button>
+  <p *ngIf="messageSendError.isDefined">{{messageSendError.get}}</p>
+</div>

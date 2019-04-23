@@ -1,15 +1,9 @@
 <div ng-ts-spinner [spinOn]="communicatingUser" [overlayWhileSpin]=true></div>
 <div class="row">
   <div class="col-6 col-12-narrower">
-    <section id="parametri" class="box">
+    <section id="parametri" class="box personal-data">
       <div *ngIf="userInfoError.isEmpty && user.isDefined">
-        <h2>I tuoi dati personali</h2>
-        <ul>
-          <li><b>Codice Fiscale: </b> {{user.get.codicefiscale}}</li>
-          <li><b>Nome: </b> {{user.get.nome}}</li>
-          <li><b>Cognome: </b> {{user.get.cognome}}</li>
-          <li><b>e-mail: </b> {{user.get.email}}</li>
-        </ul>
+      <app-user-detail [user]="user"></app-user-detail>
       </div>
       <div *ngIf="userInfoError.isDefined">
         <ul>{{userInfoError.get}}</ul>
@@ -17,103 +11,15 @@
     </section>
   </div>
   <div class="col-6 col-12-narrower">
-    <section *ngIf="userInfoError.isEmpty && user.isDefined && request.isDefined" id="richiesta" class="box">
-      <div>
-        <h2>La tua ultima richiesta di assistenza</h2>
-        <ul class="no_margin_bottom">
-          <li><b>ID richiesta: </b> {{request.get.id}}</li>
-          <li><b>Data richiesta: </b> {{request.get.requestDate.toLocaleString([], {day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"})}}</li>
-        </ul>
-        <!--instanceof is not available in templates, so we check for the existence of a field only present in DrunkDriving-->
-        <ul *ngIf="drunkDriving.isDefined">
-          <li><b>Tipo richiesta: </b>Guida in stato di ebbrezza</li>
-          <li><b>Rilevazione tasso alcolemico: </b> {{drunkDriving.get.tasso}} grammi/litro</li>
-          <li><b>Recidiva: </b> {{drunkDriving.get.recidiva === true ? 'sì' : 'no'}}</li>
-          <li><b>Rifiuto accertamento: </b> {{drunkDriving.get.rifiutato === true ? 'sì' : 'no'}}</li>
-          <li><b>Veicolo appartenente a estraneo: </b> {{drunkDriving.get.estraneo === true ? 'sì' : 'no'}}</li>
-          <li><b>Incidente: </b> {{drunkDriving.get.incidente === true ? 'sì' : 'no'}}</li>
-        </ul>
-        <hr>
-        <div class="form-group">
-          <h3 class="centered">Documentazione relativa alla richiesta di assistenza</h3>
-          <h5>File inviati - <span class="icon orange clickable fa-refresh" (click)="updateFilesList()"></span></h5>
-          <div ng-ts-spinner [spinOn]="communicatingFiles" [options]="{scale: 0.2}" class="spinnerDiv">
-            <div class="insideSpinner">
-              <ng-container *ngIf="filesListError.isEmpty">
-                <table class="alt">
-                  <thead>
-                    <tr>
-                      <td>Nome file</td>
-                      <td>Comandi</td>
-                    </tr>
-                  </thead>
-                  <ng-container *ngIf="alreadyUploadedFiles.length > 0">
-                    <tr *ngFor="let file of alreadyUploadedFiles">
-                      <td class="file-td">{{file}}</td>
-                      <td class="centered">
-                        <span class="orange icon clickable fa-picture-o ok_margin_sides" (click)="getFile(file)"></span>
-                        <span class="orange icon clickable fa-trash-o ok_margin_sides" (click)="deleteFile(file)"></span>
-                      </td>
-                    </tr>
-                  </ng-container>
-                  <ng-container *ngIf="alreadyUploadedFiles.length === 0">
-                    <tr>
-                      <td>[Nessun file caricato]</td>
-                      <td></td>
-                    </tr>
-                  </ng-container>
-                </table>
-              </ng-container>
-              <ng-container *ngIf="filesListError.isDefined">
-                <p class="no_margin_bottom">{{filesListError.get}}</p>
-                <button class="button special small ok_margin_bottom" (click)="updateFilesList()">Riprova</button>
-              </ng-container>
-            </div>
-          </div>
-          <h5>Invio nuovi file</h5>
-          <input type="file" id="fileInput" (change)="handleFileInput(fileInput.files)" style="display: none" #fileInput>
-          <button *ngIf="!fileToUpload.isDefined" class="button special" (click)="fileInput.click()">Seleziona file</button>
-          <button *ngIf="fileToUpload.isDefined" class="button special" (click)="uploadFile()">Invia file</button>
-          <p class="no_margin_bottom" style="font-size: small">Sono consentiti i seguenti formati: jpeg, png, tiff</p>
-          <p *ngIf="fileStatus.length > 0">{{fileStatus}}</p>
-        </div>
-      </div>
+    <section *ngIf="userInfoError.isEmpty && user.isDefined && request.isDefined" class="box request">
+      <app-request-detail [request]="request"></app-request-detail>
       <hr>
-      <div>
-        <h3 class="centered">Messaggi</h3>
-        <div class="title-flex-container">
-          <h5>Messaggi inviati - <span class="icon orange clickable fa-refresh" (click)="updateMessages()"></span></h5>
-          <div ng-ts-spinner [spinOn]="communicatingMessages" [options]="{scale: 0.1}" class="spinnerDiv right-spinner"></div>
-        </div>
-        <ng-container *ngIf="messagesError.isEmpty">
-          <ng-container *ngIf="messages.length > 0">
-            <ng-container *ngFor="let message of messages">
-              <ng-container *ngIf="message.fromUser">
-                <div class="speech-bubble speech-bubble-right">{{message.message}}</div>
-              </ng-container>
-              <ng-container *ngIf="!message.fromUser">
-                <div class="speech-bubble speech-bubble-left">{{message.message}}</div>
-              </ng-container>
-            </ng-container>
-          </ng-container>
-          <ng-container *ngIf="messages.length === 0">
-            <div class="speech-bubble speech-bubble-right">[Nessun messaggio]</div>
-          </ng-container>
-        </ng-container>
-        <ng-container *ngIf="messagesError.isDefined">
-          <p class="no_margin_bottom">{{messagesError.get}}</p>
-          <button class="button special small ok_margin_bottom" (click)="updateMessages()">Riprova</button>
-        </ng-container>
-        <label for="messageTextAreaId">Inserisci qui il tuo nuovo messaggio</label>
-        <textarea id="messageTextAreaId" style="resize: none" #messageTextArea></textarea>
-        <button class="button special" (click)="sendMessage(messageTextArea.value)">Invia messaggio</button>
-        <p *ngIf="messageSendError.isDefined">{{messageSendError.get}}</p>
-      </div>
+      <app-picture-manager [user]="user" [request]="request"></app-picture-manager>
       <hr>
-      <div>
-        <h3 class="centered">Pagamento della prestazione legale</h3>
-        <app-checkout *ngIf="request.get.paymentDate <= 0" [codicefiscale]="user.get.codicefiscale" [request]="request.get.id"></app-checkout>
-        <p *ngIf="request.get.paymentDate > 0">Prestazione già pagata</p>
+      <app-message-manager [user]="user" [request]="request" [fromUser]="codicefiscalein.isEmpty"></app-message-manager>
+      <hr>
+      <div *ngIf="codicefiscalein.isEmpty">
+        <app-checkout [codicefiscale]="user.get.codicefiscale" [request]="request.get.id" [paid]="request.get.paymentDate > 0"></app-checkout>
       </div>
     </section>
     <section *ngIf="userInfoError.isEmpty && user.isDefined && !request.isDefined" id="emptyReq" class="box">

@@ -15,3 +15,36 @@
 .spinnerDiv {
   position: relative;
 }
+
+.no_margin_bottom {
+  margin: 0;
+}
+
+.ok_margin_bottom {
+  margin-bottom: 2em;
+}
+
+.ok_margin_sides {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.insideSpinner {
+  min-height: 50px;
+}
+
+.centered {
+  text-align: center;
+}
+
+.orange {
+  color: #e89980;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.centered {
+  text-align: center;
+}
