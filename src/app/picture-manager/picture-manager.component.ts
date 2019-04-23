@@ -28,7 +28,6 @@ export class PictureManagerComponent implements OnInit, OnChanges {
               private lightboxConfig: LightboxConfig, private router: Router) { }
 
   ngOnInit() {
-    this.updateFilesList();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

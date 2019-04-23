@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {none, option, Option} from 'ts-option';
 import {LegalAssistance, Message, User} from '../model/model';
 import {ServerinteractorService} from '../serverinteractor.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-message-manager',
@@ -19,10 +20,9 @@ export class MessageManagerComponent implements OnInit, OnChanges {
   messageSendError: Option<string> = none;
   messagesError: Option<string> = none;
 
-  constructor(private serverInteractorService: ServerinteractorService) { }
+  constructor(private serverInteractorService: ServerinteractorService, private router: Router) { }
 
   ngOnInit() {
-    this.updateMessages();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,10 +38,23 @@ export class MessageManagerComponent implements OnInit, OnChanges {
           return a.date < b.date ? 1 : -1;
         });
         this.messages = result;
+        this.router.events.subscribe(() => {
+          if (this.messageTimer != null) {
+            clearTimeout(this.messageTimer);
+            this.messageTimer = null;
+          }
+        });
+        if (this.messageTimer != null) {
+          clearTimeout(this.messageTimer);
+          this.messageTimer = null;
+        }
         this.messageTimer = setTimeout(this.updateMessages.bind(this), 5000);
         this.communicatingMessages = false;
       }, () => {
-        this.messageTimer = null;
+        if (this.messageTimer != null) {
+          clearTimeout(this.messageTimer);
+          this.messageTimer = null;
+        }
         this.messages = [];
         this.messagesError = option('Impossibile ottenere la lista dei messaggi.');
         this.communicatingMessages = false;
