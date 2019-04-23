@@ -28,12 +28,16 @@ export class CheckoutComponent implements AfterViewInit, OnDestroy{
   constructor(private serverInteractorService: ServerinteractorService) { }
 
   ngAfterViewInit() {
-    this.card = elements.create('card');
-    this.card.mount(this.cardInfo.nativeElement);
+    if (this.cardInfo != undefined) {
+      this.card = elements.create('card');
+      this.card.mount(this.cardInfo.nativeElement);
+    }
   }
 
   ngOnDestroy() {
-    this.card.destroy();
+    if (this.card != undefined) {
+      this.card.destroy();
+    }
   }
 
   async onSubmit(form: NgForm) {
