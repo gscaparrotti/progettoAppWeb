@@ -1,5 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
+.my-h5 {
+  font-weight: 600
+}
+
+.my-h3 {
+  font-size: 1.3em;
+}
+
 .button-link {
   border-style: none !important;
 }

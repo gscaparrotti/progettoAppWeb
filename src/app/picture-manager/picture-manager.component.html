@@ -1,6 +1,6 @@
 <div *ngIf="user.isDefined && request.isDefined" class="form-group">
-  <h3 class="centered">Documentazione relativa alla richiesta di assistenza</h3>
-  <h5>File inviati - <span class="icon orange clickable fa-refresh" (click)="updateFilesList()"></span></h5>
+  <h3 class="centered my-h3">Documentazione relativa alla richiesta di assistenza</h3>
+  <h5 class="my-h5">File inviati - <span class="icon orange clickable fa-refresh" (click)="updateFilesList()"></span></h5>
   <div ng-ts-spinner [spinOn]="communicatingFiles" [options]="{scale: 0.2}" class="spinnerDiv">
     <div class="insideSpinner">
       <ng-container *ngIf="filesListError.isEmpty">
@@ -34,7 +34,7 @@
       </ng-container>
     </div>
   </div>
-  <h5>Invio nuovi file</h5>
+  <h5 class="my-h5">Invio nuovi file</h5>
   <input type="file" id="fileInput" (change)="handleFileInput(fileInput.files)" style="display: none" #fileInput>
   <button *ngIf="!fileToUpload.isDefined" class="button special" (click)="fileInput.click()">Seleziona file</button>
   <button *ngIf="fileToUpload.isDefined" class="button special" (click)="uploadFile()">Invia file</button>

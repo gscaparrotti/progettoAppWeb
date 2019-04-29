@@ -1,7 +1,7 @@
 <div *ngIf="user.isDefined && request.isDefined">
-  <h3 class="centered">Messaggi</h3>
+  <h3 class="centered my-h3">Messaggi</h3>
   <div class="title-flex-container">
-    <h5>Messaggi inviati - <span class="icon orange clickable fa-refresh" (click)="updateMessages()"></span></h5>
+    <h5 class="my-h5">Messaggi inviati - <span class="icon orange clickable fa-refresh" (click)="updateMessages()"></span></h5>
     <div ng-ts-spinner [spinOn]="communicatingMessages" [options]="{scale: 0.1}" class="spinnerDiv right-spinner"></div>
   </div>
   <ng-container *ngIf="messagesError.isEmpty">

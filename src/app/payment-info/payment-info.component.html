@@ -1,0 +1,7 @@
+<h3 class="centered my-h3">Pagamento</h3>
+<ng-container *ngIf="request.get.paymentDate > 0">
+  <ul>Pagamento effettuato in data {{request.get.paymentDate.toLocaleString([], {day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"})}}</ul>
+</ng-container>
+<ng-container *ngIf="request.get.paymentDate <= 0">
+  <ul>Pagamento non presente</ul>
+</ng-container>
