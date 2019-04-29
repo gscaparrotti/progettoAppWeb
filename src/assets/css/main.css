@@ -2810,7 +2810,7 @@
 		}
 	}
 
-	#header {
+	#header, #littleHeader {
 		background: #444;
 		color: #bbb;
 		cursor: default;
@@ -2823,7 +2823,7 @@
 		z-index: 10000;
 	}
 
-		#header h1 {
+		#header h1, #littleHeader h1 {
 			color: inherit;
 			height: inherit;
 			left: 1.25em;
@@ -2834,7 +2834,7 @@
 			top: 0;
 		}
 
-			#header h1 a {
+			#header h1 a, #littleHeader h1 a {
 				color: #fff;
 				font-weight: 400;
 				border: 0;

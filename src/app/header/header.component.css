@@ -1,0 +1,10 @@
+#littleHeader h1 {
+  position: static !important;
+  text-align: center !important;
+}
+
+@media screen and (min-width: 841px) {
+  #littleHeader {
+    display: none;
+  }
+}
