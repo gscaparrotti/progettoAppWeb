@@ -27,7 +27,7 @@ export class SignUpComponent implements OnInit {
     this.response = '';
     this.communicating = true;
     this.serverinteractorService
-      .signup(new User(this.codicefiscale.value, this.nome.value, this.cognome.value, this.email.value, this.password.value))
+      .signup(new User(this.codicefiscale.value, this.nome.value, this.cognome.value, this.email.value, false, this.password.value))
       .subscribe(() => {
         this.updateStatus(false, 'Registrazione completata');
         this.serverinteractorService
