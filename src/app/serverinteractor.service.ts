@@ -6,6 +6,7 @@ import {Params} from './form1/form1.component';
 import {JSONUtils} from './utilities/json-utils';
 import JSONToClass = JSONUtils.JSONToClass;
 import JSONDate = JSONUtils.JSONDate;
+import {AuthResult} from './login/login.component';
 
 @Injectable()
 export class ServerinteractorService {
@@ -20,7 +21,7 @@ export class ServerinteractorService {
   }
 
   public login(codicefiscale: string, password: string) {
-    return this.http.post<boolean>(this.baseUrl + 'login', {codicefiscale: codicefiscale, password: password})
+    return this.http.post<AuthResult>(this.baseUrl + 'login', {codicefiscale: codicefiscale, password: password})
       .pipe(map(result => {
         sessionStorage.setItem('codicefiscale', codicefiscale);
         sessionStorage.setItem('authToken', btoa(codicefiscale + ':' + password));
@@ -31,6 +32,10 @@ export class ServerinteractorService {
 
   public getUserInfo(codicefiscale: string) {
     return this.http.get<User>(this.baseUrl + 'users/' + codicefiscale, {headers: this.headers});
+  }
+
+  public getAllUsers() {
+    return this.http.get<User[]>(this.baseUrl + 'users', {headers: this.headers});
   }
 
   public getUserRequests(codicefiscale: string) {

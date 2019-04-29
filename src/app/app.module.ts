@@ -21,6 +21,8 @@ import { PictureManagerComponent } from './picture-manager/picture-manager.compo
 import { MessageManagerComponent } from './message-manager/message-manager.component';
 import { RequestDetailComponent } from './request-detail/request-detail.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { PaymentInfoComponent } from './payment-info/payment-info.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
     PictureManagerComponent,
     MessageManagerComponent,
     RequestDetailComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    AdminPageComponent,
+    PaymentInfoComponent
   ],
   imports: [
     BrowserModule,

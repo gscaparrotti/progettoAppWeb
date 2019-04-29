@@ -1,0 +1,10 @@
+<div ng-ts-spinner [spinOn]="communicating" [overlayWhileSpin]=true></div>
+<div class="row">
+  <ng-container *ngIf="allUsers.isDefined">
+    <select (change)="selected($event)" id="userSelect">
+      <option disabled selected>Selezionare un utente</option>
+      <option *ngFor="let user of allUsers.get" [value]="user.codicefiscale">{{user.codicefiscale}}</option>
+    </select>
+  </ng-container>
+  <app-personal-page class="extra-margin-top" *ngIf="currentUser.isDefined" [userIn]="currentUser"></app-personal-page>
+</div>

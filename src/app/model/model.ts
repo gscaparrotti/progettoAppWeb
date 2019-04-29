@@ -4,14 +4,16 @@ export class User {
   public nome: string;
   public cognome: string;
   public email: string;
+  public isAdmin: boolean;
   public password?: string;
 
-  constructor(codicefiscale: string, nome: string, cognome: string, email: string, password?: string) {
+  constructor(codicefiscale: string, nome: string, cognome: string, email: string, isAdmin: boolean, password?: string) {
     this.password = password;
     this.email = email;
     this.cognome = cognome;
     this.nome = nome;
     this.codicefiscale = codicefiscale;
+    this.isAdmin = isAdmin;
   }
 }
 

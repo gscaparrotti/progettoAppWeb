@@ -16,15 +16,18 @@
       <hr>
       <app-picture-manager [user]="user" [request]="request"></app-picture-manager>
       <hr>
-      <app-message-manager [user]="user" [request]="request" [fromUser]="codicefiscalein.isEmpty"></app-message-manager>
+      <app-message-manager [user]="user" [request]="request" [fromUser]="userIn.isEmpty"></app-message-manager>
       <hr>
-      <div *ngIf="codicefiscalein.isEmpty">
+      <div *ngIf="userIn.isEmpty">
         <app-checkout [codicefiscale]="user.get.codicefiscale" [request]="request.get.id" [paid]="request.get.paymentDate > 0"></app-checkout>
+      </div>
+      <div *ngIf="userIn.isDefined">
+        <app-payment-info [request]="request"></app-payment-info>
       </div>
     </section>
     <section *ngIf="userInfoError.isEmpty && user.isDefined && !request.isDefined" id="emptyReq" class="box">
       <div>
-        <h2>Non sono presenti richieste di assistenza</h2>
+        <h3 class="my-h3">Non sono presenti richieste di assistenza</h3>
       </div>
     </section>
   </div>

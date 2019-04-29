@@ -18,18 +18,27 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.serverinteractorService.login(this.codicefiscale.value, this.password.value).subscribe(success => {
-        if (success) {
-          this.router.navigate(['/personal-page']);
+        if (success.isAdmin) {
+          this.router.navigate(['/admin-page']);
         } else {
-          this.response = 'Password errata';
+          this.router.navigate(['/personal-page']);
         }
       },
-      error => {
-        this.response = 'Errore di comunicazione. Riprovare.';
+      () => {
+        this.response = 'Accesso fallito. Riprovare.';
       });
   }
 
   ngOnInit() {
   }
 
+}
+
+export class AuthResult {
+
+  isAdmin: boolean;
+
+  constructor(isAdmin: boolean) {
+    this.isAdmin = isAdmin;
+  }
 }
