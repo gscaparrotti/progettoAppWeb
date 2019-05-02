@@ -17,11 +17,26 @@ export class SignUpComponent implements OnInit {
   cognome = new FormControl('');
   email = new FormControl('');
   password = new FormControl('');
+  registrato = new FormControl('');
+  registratoFlag = false;
   response = '';
   communicating = false;
 
-  constructor(private serverinteractorService: ServerinteractorService, private stockService: StockService,
-              private router: Router) { }
+  constructor(private serverinteractorService: ServerinteractorService, private stockService: StockService, private router: Router) { }
+
+  ngOnInit() {
+    this.registrato.valueChanges.subscribe(() => {
+      this.registratoFlag = this.registrato.value;
+    });
+  }
+
+  send() {
+    if (!this.registratoFlag) {
+      this.signup();
+    } else {
+      this.sendRequest();
+    }
+  }
 
   signup() {
     this.response = '';
@@ -30,18 +45,24 @@ export class SignUpComponent implements OnInit {
       .signup(new User(this.codicefiscale.value, this.nome.value, this.cognome.value, this.email.value, false, this.password.value))
       .subscribe(() => {
         this.updateStatus(false, 'Registrazione completata');
-        this.serverinteractorService
-          .login(this.codicefiscale.value, this.password.value)
-          .subscribe(loginResult => {
-            if (loginResult) {
-              this.serverinteractorService
-                .uploadDrunkDrivingAssistanceRequest(this.codicefiscale.value, this.stockService.getParams())
-                .subscribe(() => {
-                  this.updateStatus(false, 'Upload completato', true);
-                  this.router.navigate(['/personal-page']);
-                }, () => this.updateStatus(true));
-            }
-          }, () => this.updateStatus(true));
+        this.sendRequest();
+      }, () => this.updateStatus(true));
+  }
+
+
+
+  sendRequest() {
+    this.serverinteractorService
+      .login(this.codicefiscale.value, this.password.value)
+      .subscribe(loginResult => {
+        if (loginResult) {
+          this.serverinteractorService
+            .uploadDrunkDrivingAssistanceRequest(this.codicefiscale.value, this.stockService.getParams())
+            .subscribe(() => {
+              this.updateStatus(false, 'Upload completato', true);
+              this.router.navigate(['/personal-page']);
+            }, () => this.updateStatus(true));
+        }
       }, () => this.updateStatus(true));
   }
 
@@ -53,8 +74,4 @@ export class SignUpComponent implements OnInit {
       append ? this.response += message : this.response = message;
     }
   }
-
-  ngOnInit() {
-  }
-
 }

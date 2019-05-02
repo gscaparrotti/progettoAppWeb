@@ -1,19 +1,23 @@
 <header>
-  <h2>Registrazione alla piattaforma</h2>
+  <h2 *ngIf="!registratoFlag">Registrazione alla piattaforma e invio richiesta</h2>
+  <h2 *ngIf="registratoFlag">Invio richiesta</h2>
 </header>
 <div ng-ts-spinner [spinOn]="communicating" [overlayWhileSpin]=true></div>
 <section id="registrazione" class="box">
   <div class="row uniform 50%">
-    <div class="6u 12u(mobilep)">
+    <div class="12u 12u(mobilep)">
+      <input type="checkbox" id="registrato" [formControl]="registrato"><label for="registrato">Sono già registrato</label>
+    </div>
+    <div *ngIf="!registratoFlag" class="6u 12u(mobilep)">
       <input type="text" id="nome" [formControl]="nome" placeholder="Nome"><label for="nome">Nome</label>
     </div>
-    <div class="6u 12u(mobilep)">
+    <div *ngIf="!registratoFlag" class="6u 12u(mobilep)">
       <input type="text" id="cognome" [formControl]="cognome" placeholder="Cognome"><label for="cognome">Cognome</label>
     </div>
     <div class="6u 12u(mobilep)">
       <input type="text" id="codicefiscale" [formControl]="codicefiscale" placeholder="Codice Fiscale"><label for="codicefiscale">Codice Fiscale</label>
     </div>
-    <div class="6u 12u(mobilep)">
+    <div *ngIf="!registratoFlag" class="6u 12u(mobilep)">
       <input type="email" id="email" [formControl]="email" placeholder="Indirizzo e-mail"><label for="email">Indirizzo e-mail</label>
     </div>
     <div class="6u 12u(mobilep)">
@@ -25,4 +29,4 @@
   </div>
 </section>
 
-<button class="button special" (click)="signup()">Registrati</button>
+<button class="button special" (click)="send()">Invia</button>
